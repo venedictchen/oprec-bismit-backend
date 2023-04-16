@@ -1,19 +1,27 @@
 from fastapi import FastAPI,status,HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional,List
 from database import SessionLocal
 import models
 
 app=FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Item(BaseModel): #serializer
-    id: int
+    id: str
     name: str
-    spend: int
-    income: int
     description: str
-    plan: bool
+    deadline: str
 
     class Config:
         orm_mode=True
@@ -26,9 +34,10 @@ def get_all_items():
 
     return items
 
-@app.get('/item/{item_id}')
+@app.get('/item/{item_id}',response_model=Item,status_code=status.HTTP_200_OK)
 def get_an_item (item_id:int):
-    pass
+    item = db.query(models.Item).filter(models.Item.id==item_id).first()
+    return item
 
 @app.post('/items',response_model=Item,status_code=status.HTTP_201_CREATED)
 def create_an_item(item:Item):
@@ -39,10 +48,8 @@ def create_an_item(item:Item):
 
     new_item=models.Item(
         name=item.name,
-        spend=item.spend,
-        income=item.income,
         description=item.description,
-        plan=item.plan
+        deadline=item.deadline
     )
 
     db.add(new_item)
@@ -54,10 +61,8 @@ def create_an_item(item:Item):
 def update_an_item(item_id:int,item:Item):
     item_to_update=db.query(models.Item).filter(models.Item.id==item_id).first()  
     item_to_update.name=item.name
-    item_to_update.spend=item.spend
-    item_to_update.income=item.income
     item_to_update.description=item.description
-    item_to_update.plan=item.plan
+    item_to_update.deadline=item.deadline
     
     db.commit()
 
