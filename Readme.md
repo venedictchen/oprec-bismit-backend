@@ -1,4 +1,4 @@
-# Money Planner App
+# To Do List App
 Implementasi belum 100% selesai
 
 ## How to run app locally
