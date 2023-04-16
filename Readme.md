@@ -1,15 +1,15 @@
-# Money Planner App
+# To Do List App
 Implementasi belum 100% selesai
 
 ## How to run app locally
 Clone repo ini
 ```bash
-git clone https://github.com/venedictchen/Money-Planner.git money-planner
+git clone https://github.com/venedictchen/oprec-bismit-backend.git
 ```
 
 CD ke dir app
 ```bash
-cd ./money-planner
+cd /oprec-bismit-backend
 ```
 
 Buat virtual enviroment
@@ -32,5 +32,6 @@ Start backend
 python main.py
 uvicorn main:app --reload
 ```
+Replace the database url at database.py with your own url database connection
 
-Buka html di browser
+
