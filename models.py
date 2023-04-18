@@ -4,7 +4,7 @@ from sqlalchemy import String,Integer,Column,Text
 
 class Item(Base):
     __tablename__='items'
-    id=Column(Integer,primary_key=True)
+    id=Column(String,primary_key=True)
     name=Column(String(255),nullable=False,unique=False)
     description=Column(Text)
     deadline=Column(Text)

@@ -47,6 +47,7 @@ def create_an_item(item:Item):
         raise HTTPException(status_code=400,detail="Item already exists")
 
     new_item=models.Item(
+        id = item.id,
         name=item.name,
         description=item.description,
         deadline=item.deadline
@@ -69,7 +70,7 @@ def update_an_item(item_id:int,item:Item):
     return item_to_update
 
 @app.delete('/item/{item_id}')
-def delete_item(item_id:int):
+def delete_item(item_id:str):
     item_to_delete=db.query(models.Item).filter(models.Item.id==item_id).first()
 
     if item_to_delete is None:
